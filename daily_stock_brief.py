@@ -270,7 +270,7 @@ def generate_prognosis(stock: Dict, news: List[Dict], price_change: float) -> Di
     }
 
 def summarize_headline(title: str) -> str:
-    """Extract meaningful summary from headline"""
+    """Extract meaningful summary from headline - kept for compatibility"""
     import re
     t = title.lower()
     
@@ -284,6 +284,38 @@ def summarize_headline(title: str) -> str:
         return "Regulatory/legal risks could impact outlook"
     
     return "Market news update"
+
+def get_actionable_insight(title: str, direction: str, symbol: str) -> str:
+    """Generate actionable insight based on news content"""
+    t = title.lower()
+    
+    if direction == "BULLISH":
+        if "earnings" in t:
+            return "Earnings beat — watch for post-earnings dip buying opportunity"
+        if "upgrade" in t:
+            return "Analyst upgrade — price target raised, bullish momentum likely"
+        if "growth" in t:
+            return "Strong growth metrics — consider adding on any pullback"
+        if "acquisition" in t or "partnership" in t:
+            return "Strategic deal — could unlock new revenue streams"
+        if "revenue" in t and "beat" in t:
+            return "Revenue beat expectations — momentum likely to continue"
+        return "Positive news — monitor for continuation"
+    
+    elif direction == "BEARISH":
+        if "earnings" in t:
+            return "Earnings miss — avoid, watch for further downside"
+        if "downgrade" in t:
+            return "Analyst downgrade — price target cut, bearish outlook"
+        if "lawsuit" in t or "investigation" in t:
+            return "Legal headwind — uncertainty suggests caution"
+        if "miss" in t:
+            return "Results missed estimates — selling pressure likely"
+        if "cut" in t and ("guidance" in t or "forecast" in t):
+            return "Guidance cut — expect continued weakness"
+        return "Negative news — monitor for breakdown"
+    
+    return "Monitor for break"  # NEUTRAL
 
 # ============================================================================
 # REPORT GENERATION
@@ -344,9 +376,22 @@ def generate_report(stocks_data: Dict) -> str:
                 for i, item in enumerate(news[:2], 1):
                     title = item.get("title", "")
                     source = item.get("source", "")
-                    summary = summarize_headline(title)
-                    report += f"   {i}. {summary}\n"
-                    report += f"      Today | {source}\n"
+                    pub_date = item.get("date", 0)
+                    if pub_date:
+                        from datetime import datetime
+                        date_str = datetime.fromtimestamp(pub_date).strftime('%b %d')
+                    else:
+                        date_str = "Today"
+                    
+                    # Show REAL headline, not generic summary
+                    report += f"   {i}. {title}\n"
+                    report += f"      {source} | {date_str}\n"
+                    
+                    # Add INSIGHT with actionable analysis
+                    analysis = analyze_impact(item)
+                    if analysis["direction"] != "NEUTRAL":
+                        insight = get_actionable_insight(title, analysis["direction"], symbol)
+                        report += f"   💡 {insight}\n"
                 
                 report += "\n"
                 stocks_processed += 1
