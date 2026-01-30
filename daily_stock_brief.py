@@ -457,8 +457,162 @@ def send_telegram_message(message: str, bot_token: str, chat_id: str) -> bool:
     return False
 
 # ============================================================================
-# MAIN
+# TELEGRAM COMMANDS
 # ============================================================================
+
+def handle_command(command: str, args: str) -> str:
+    """Handle Telegram bot commands"""
+    command = command.lower().strip()
+    
+    if command == "/price":
+        return cmd_price(args)
+    elif command == "/news":
+        return cmd_news(args)
+    elif command == "/alert":
+        return cmd_alert(args)
+    elif command == "/alerts":
+        return cmd_list_alerts()
+    elif command == "/help":
+        return cmd_help()
+    elif command == "/start":
+        return cmd_start()
+    else:
+        return f"❓ Unknown command: {command}\nUse /help for available commands."
+
+def cmd_price(symbol: str) -> str:
+    """Get current price for a stock"""
+    symbol = symbol.upper().strip()
+    if not symbol:
+        return "❌ Please specify a symbol: /price MSFT"
+    
+    price = get_yahoo_price(symbol)
+    if price is None:
+        return f"❌ Could not fetch price for {symbol}"
+    
+    change = get_price_change(symbol)
+    emoji = "📉" if change < 0 else "📈"
+    arrow = "▼" if change < 0 else "▲"
+    
+    return f"{emoji} *{symbol}* ${price:.2f} {arrow}{change:+.1f}%"
+
+def cmd_news(symbol: str) -> str:
+    """Get latest news for a stock"""
+    symbol = symbol.upper().strip()
+    if not symbol:
+        return "❌ Please specify a symbol: /news MSFT"
+    
+    news = fetch_news_simple(symbol)
+    if not news:
+        return f"❌ No news found for {symbol}"
+    
+    response = f"📰 *Latest News for {symbol}*\n" + "─" * 30 + "\n"
+    
+    for i, item in enumerate(news[:3], 1):
+        title = item.get("title", "No title")[:80]
+        source = item.get("source", "Unknown")
+        pub_date = item.get("date", 0)
+        if pub_date:
+            from datetime import datetime
+            date_str = datetime.fromtimestamp(pub_date).strftime('%b %d')
+        else:
+            date_str = "Today"
+        
+        response += f"\n{i}. {title}\n"
+        response += f"   {source} | {date_str}"
+    
+    return response
+
+def cmd_alert(args: str) -> str:
+    """Set a price alert (simplified version)"""
+    parts = args.split()
+    if len(parts) < 2:
+        return """📢 *Price Alert*
+
+Usage: `/alert MSFT 450` - Alert when MSFT hits $450
+
+Alert types:
+- `/alert MSFT 450` - Alert when price reaches $450
+- `/alert MSFT 450+` - Alert when price goes above $450
+- `/alert MSFT 450-` - Alert when price goes below $450
+
+Note: Alerts are stored locally. Check with /alerts"""
+    
+    try:
+        symbol = parts[0].upper()
+        target_price = float(parts[1].replace('+', '').replace('-', ''))
+        direction = "above" if '+' in parts[1] else ("below" if '-' in parts[1] else "at")
+        
+        # Store alert (append to file)
+        alert_line = f"{symbol},{target_price},{direction},{datetime.now().isoformat()}\n"
+        with open("alerts.txt", "a") as f:
+            f.write(alert_line)
+        
+        return f"✅ Alert set: Notify when *{symbol}* goes {direction} ${target_price:.2f}"
+    except ValueError:
+        return "❌ Invalid format. Use: /alert MSFT 450"
+
+def cmd_help() -> str:
+    """Show help message"""
+    return """📊 *Daily Stock Bot Commands*
+
+/price MSFT     - Get current price & change
+/news MSFT      - Get latest news (3 articles)
+/alert MSFT 450 - Set price alert
+/alerts         - List all active alerts
+/help           - Show this help message
+
+*Daily Reports:* Sent automatically at 8 AM"""
+
+def cmd_start() -> str:
+    """Welcome message"""
+    return """👋 *Welcome to Daily Stock Bot!*
+
+Get real-time stock information and news.
+
+📈 */price MSFT* - Current price & daily change
+📰 */news MSFT*  - Latest news & analysis  
+📢 */alert MSFT 450* - Set price alerts
+
+📅 Daily reports sent at 8 AM
+Use /help for all commands"""
+
+def cmd_list_alerts() -> str:
+    """List all active alerts"""
+    try:
+        with open("alerts.txt", "r") as f:
+            alerts = f.readlines()
+        
+        if not alerts:
+            return "📢 No active alerts. Use /alert MSFT 450 to create one."
+        
+        response = "📢 *Active Alerts*\n" + "─" * 30 + "\n"
+        for alert in alerts:
+            parts = alert.strip().split(',')
+            if len(parts) >= 3:
+                response += f"• {parts[0]}: ${parts[1]} ({parts[2]})\n"
+        
+        return response
+    except FileNotFoundError:
+        return "📢 No active alerts. Use /alert MSFT 450 to create one."
+
+def parse_telegram_update(update: dict) -> tuple:
+    """Parse Telegram webhook update and return (command, args, chat_id)"""
+    try:
+        message = update.get("message", {})
+        chat = message.get("chat", {})
+        chat_id = chat.get("id")
+        text = message.get("text", "")
+        
+        if text.startswith("/"):
+            parts = text.split(" ", 1)
+            command = parts[0]
+            args = parts[1] if len(parts) > 1 else ""
+            return command, args, chat_id
+        
+        return None, None, chat_id
+    except Exception as e:
+        logger.error(f"Error parsing Telegram update: {e}")
+        return None, None, None
 
 def health_check() -> bool:
     """Verify critical dependencies before running"""
