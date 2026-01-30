@@ -472,6 +472,8 @@ def handle_command(command: str, args: str) -> str:
         return cmd_alert(args)
     elif command == "/alerts":
         return cmd_list_alerts()
+    elif command == "/portfolio":
+        return cmd_portfolio()
     elif command == "/help":
         return cmd_help()
     elif command == "/start":
@@ -522,6 +524,26 @@ def cmd_news(symbol: str) -> str:
     
     return response
 
+def cmd_portfolio() -> str:
+    """Get overview of all stocks in watchlist"""
+    try:
+        stocks_data = load_stocks()
+        report = generate_report(stocks_data)
+        # Remove the date header for cleaner output
+        lines = report.split('\n')
+        # Skip the header lines, keep the stock data
+        start_idx = 0
+        for i, line in enumerate(lines):
+            if line.startswith('─'):
+                start_idx = i + 1
+                break
+        
+        portfolio = '\n'.join(lines[start_idx:])
+        return f"📊 *Your Portfolio*\n\n{portfolio}"
+    except Exception as e:
+        logger.error(f"Error generating portfolio: {e}")
+        return "❌ Failed to generate portfolio"
+
 def cmd_alert(args: str) -> str:
     """Set a price alert (simplified version)"""
     parts = args.split()
@@ -557,6 +579,7 @@ def cmd_help() -> str:
 
 /price MSFT     - Get current price & change
 /news MSFT      - Get latest news (3 articles)
+/portfolio      - View all stocks at once
 /alert MSFT 450 - Set price alert
 /alerts         - List all active alerts
 /help           - Show this help message

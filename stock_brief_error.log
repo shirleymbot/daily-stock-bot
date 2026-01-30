@@ -1,0 +1,207 @@
+2026-01-30 22:20:08,323 - INFO - Starting in webhook mode...
+2026-01-30 22:20:08,421 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 22:20:08,424 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 22:20:08,424 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:20:22,500 - INFO - Received Telegram update: /price MSFT
+2026-01-30 22:20:22,500 - INFO - Fetching price for MSFT (attempt 1/3)...
+2026-01-30 22:20:23,184 - INFO - Got price for MSFT: $430.29
+2026-01-30 22:20:23,346 - INFO - Price change for MSFT: -0.74%
+2026-01-30 22:20:23,346 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:20:23,495 - INFO - Telegram message sent successfully
+2026-01-30 22:20:23,511 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:23] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:23,540 - INFO - Received Telegram update: /price MSFT
+2026-01-30 22:20:23,541 - INFO - Fetching price for MSFT (attempt 1/3)...
+2026-01-30 22:20:23,965 - INFO - Got price for MSFT: $430.29
+2026-01-30 22:20:24,105 - INFO - Price change for MSFT: -0.74%
+2026-01-30 22:20:24,106 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:20:24,286 - INFO - Telegram message sent successfully
+2026-01-30 22:20:24,289 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:24] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:24,317 - INFO - Received Telegram update: /price MSFT
+2026-01-30 22:20:24,317 - INFO - Fetching price for MSFT (attempt 1/3)...
+2026-01-30 22:20:24,699 - INFO - Got price for MSFT: $430.29
+2026-01-30 22:20:24,929 - INFO - Price change for MSFT: -0.74%
+2026-01-30 22:20:24,930 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:20:25,094 - INFO - Telegram message sent successfully
+2026-01-30 22:20:25,096 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:25] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:25,142 - INFO - Received Telegram update: unknown
+2026-01-30 22:20:25,144 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:25] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:25,180 - INFO - Received Telegram update: unknown
+2026-01-30 22:20:25,182 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:25] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:25,220 - INFO - Received Telegram update: /price MSFT
+2026-01-30 22:20:25,221 - INFO - Fetching price for MSFT (attempt 1/3)...
+2026-01-30 22:20:25,594 - INFO - Got price for MSFT: $430.29
+2026-01-30 22:20:25,647 - INFO - Price change for MSFT: -0.74%
+2026-01-30 22:20:25,647 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:20:25,797 - INFO - Telegram message sent successfully
+2026-01-30 22:20:25,811 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:25] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:39,911 - INFO - Received Telegram update: unknown
+2026-01-30 22:20:39,912 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:39] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:20:47,594 - INFO - Received Telegram update: unknown
+2026-01-30 22:20:47,596 - INFO - 127.0.0.1 - - [30/Jan/2026 22:20:47] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:21:23,236 - INFO - Received Telegram update: /price MSFT
+2026-01-30 22:21:23,237 - INFO - Fetching price for MSFT (attempt 1/3)...
+2026-01-30 22:21:23,682 - INFO - Got price for MSFT: $430.29
+2026-01-30 22:21:23,834 - INFO - Price change for MSFT: -0.74%
+2026-01-30 22:21:23,834 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:21:24,003 - INFO - Telegram message sent successfully
+2026-01-30 22:21:24,012 - INFO - 127.0.0.1 - - [30/Jan/2026 22:21:24] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:22:14,116 - INFO - Received Telegram update: unknown
+2026-01-30 22:22:14,118 - INFO - 127.0.0.1 - - [30/Jan/2026 22:22:14] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:24:57,099 - INFO - Fetching price for NFLX (attempt 1/3)...
+2026-01-30 22:24:57,850 - INFO - Got price for NFLX: $83.49
+2026-01-30 22:24:57,943 - INFO - Price change for NFLX: +0.40%
+2026-01-30 22:29:02,543 - INFO - Received Telegram update: /priceNFLX
+2026-01-30 22:29:02,544 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:29:02,732 - INFO - Telegram message sent successfully
+2026-01-30 22:29:02,736 - INFO - 127.0.0.1 - - [30/Jan/2026 22:29:02] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:29:09,751 - INFO - Received Telegram update: unknown
+2026-01-30 22:29:09,753 - INFO - 127.0.0.1 - - [30/Jan/2026 22:29:09] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:29:53,469 - INFO - Received Telegram update: /price NFLX
+2026-01-30 22:29:53,470 - INFO - Fetching price for NFLX (attempt 1/3)...
+2026-01-30 22:29:53,887 - INFO - Got price for NFLX: $83.49
+2026-01-30 22:29:54,014 - INFO - Price change for NFLX: +0.40%
+2026-01-30 22:29:54,015 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:29:54,210 - INFO - Telegram message sent successfully
+2026-01-30 22:29:54,214 - INFO - 127.0.0.1 - - [30/Jan/2026 22:29:54] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:30:13,456 - INFO - Received Telegram update: /price INTC
+2026-01-30 22:30:13,456 - INFO - Fetching price for INTC (attempt 1/3)...
+2026-01-30 22:30:14,061 - INFO - Got price for INTC: $46.47
+2026-01-30 22:30:14,249 - INFO - Price change for INTC: -4.50%
+2026-01-30 22:30:14,249 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:30:14,398 - INFO - Telegram message sent successfully
+2026-01-30 22:30:14,410 - INFO - 127.0.0.1 - - [30/Jan/2026 22:30:14] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:30:47,954 - INFO - Received Telegram update: /price BB
+2026-01-30 22:30:47,954 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:30:48,325 - INFO - Got price for BB: $3.57
+2026-01-30 22:30:48,447 - INFO - Price change for BB: -2.46%
+2026-01-30 22:30:48,447 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:30:48,601 - INFO - Telegram message sent successfully
+2026-01-30 22:30:48,604 - INFO - 127.0.0.1 - - [30/Jan/2026 22:30:48] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:31:01,796 - INFO - Received Telegram update: /price AAPL
+2026-01-30 22:31:01,798 - INFO - Fetching price for AAPL (attempt 1/3)...
+2026-01-30 22:31:02,394 - INFO - Got price for AAPL: $259.48
+2026-01-30 22:31:02,557 - INFO - Price change for AAPL: +0.46%
+2026-01-30 22:31:02,557 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:31:02,692 - INFO - Telegram message sent successfully
+2026-01-30 22:31:02,703 - INFO - 127.0.0.1 - - [30/Jan/2026 22:31:02] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:34:01,572 - INFO - Received Telegram update: /news NFLX
+2026-01-30 22:34:01,575 - INFO - Fetching news for NFLX (attempt 1/3)...
+2026-01-30 22:34:01,997 - INFO - Fetched 5 news items for NFLX
+2026-01-30 22:34:01,997 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:34:02,152 - INFO - Telegram message sent successfully
+2026-01-30 22:34:02,165 - INFO - 127.0.0.1 - - [30/Jan/2026 22:34:02] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:34:18,421 - INFO - Received Telegram update: unknown
+2026-01-30 22:34:18,423 - INFO - 127.0.0.1 - - [30/Jan/2026 22:34:18] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:34:32,851 - INFO - Received Telegram update: /price BB
+2026-01-30 22:34:32,852 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:34:33,244 - INFO - Got price for BB: $3.57
+2026-01-30 22:34:33,370 - INFO - Price change for BB: -2.46%
+2026-01-30 22:34:33,371 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:34:33,517 - INFO - Telegram message sent successfully
+2026-01-30 22:34:33,526 - INFO - 127.0.0.1 - - [30/Jan/2026 22:34:33] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:34:38,816 - INFO - Received Telegram update: /news BB
+2026-01-30 22:34:38,817 - INFO - Fetching news for BB (attempt 1/3)...
+2026-01-30 22:34:39,224 - INFO - Fetched 5 news items for BB
+2026-01-30 22:34:39,225 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:34:39,403 - INFO - Telegram message sent successfully
+2026-01-30 22:34:39,415 - INFO - 127.0.0.1 - - [30/Jan/2026 22:34:39] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:35:49,783 - INFO - Received Telegram update: /news
+2026-01-30 22:35:49,783 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:35:49,946 - INFO - Telegram message sent successfully
+2026-01-30 22:35:49,947 - INFO - 127.0.0.1 - - [30/Jan/2026 22:35:49] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:35:56,507 - INFO - Received Telegram update: unknown
+2026-01-30 22:35:56,509 - INFO - 127.0.0.1 - - [30/Jan/2026 22:35:56] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:36:01,068 - INFO - Received Telegram update: /helü
+2026-01-30 22:36:01,069 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:36:01,245 - INFO - Telegram message sent successfully
+2026-01-30 22:36:01,255 - INFO - 127.0.0.1 - - [30/Jan/2026 22:36:01] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:36:05,339 - INFO - Received Telegram update: /help
+2026-01-30 22:36:05,340 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:36:05,498 - INFO - Telegram message sent successfully
+2026-01-30 22:36:05,511 - INFO - 127.0.0.1 - - [30/Jan/2026 22:36:05] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:44:22,649 - INFO - Starting in webhook mode...
+2026-01-30 22:44:22,740 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 22:44:22,742 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 22:44:22,742 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:48:41,167 - INFO - Received Telegram update: /price MSFT
+2026-01-30 22:48:41,168 - INFO - Fetching price for MSFT (attempt 1/3)...
+2026-01-30 22:48:41,928 - INFO - Got price for MSFT: $430.29
+2026-01-30 22:48:42,083 - INFO - Price change for MSFT: -0.74%
+2026-01-30 22:48:42,083 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:48:42,227 - INFO - Telegram message sent successfully
+2026-01-30 22:48:42,239 - INFO - 127.0.0.1 - - [30/Jan/2026 22:48:42] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:48:42,270 - INFO - Received Telegram update: /news BB
+2026-01-30 22:48:42,270 - INFO - Fetching news for BB (attempt 1/3)...
+2026-01-30 22:48:42,599 - INFO - Fetched 5 news items for BB
+2026-01-30 22:48:42,599 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:48:42,742 - INFO - Telegram message sent successfully
+2026-01-30 22:48:42,754 - INFO - 127.0.0.1 - - [30/Jan/2026 22:48:42] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:48:42,803 - INFO - Received Telegram update: /news
+2026-01-30 22:48:42,804 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:48:42,990 - INFO - Telegram message sent successfully
+2026-01-30 22:48:42,991 - INFO - 127.0.0.1 - - [30/Jan/2026 22:48:42] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:48:43,032 - INFO - Received Telegram update: /price BB
+2026-01-30 22:48:43,033 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:48:43,430 - INFO - Got price for BB: $3.57
+2026-01-30 22:48:43,613 - INFO - Price change for BB: -2.46%
+2026-01-30 22:48:43,614 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:48:43,752 - INFO - Telegram message sent successfully
+2026-01-30 22:48:43,757 - INFO - 127.0.0.1 - - [30/Jan/2026 22:48:43] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:48:43,787 - INFO - Received Telegram update: /price BB
+2026-01-30 22:48:43,787 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:48:44,141 - INFO - Got price for BB: $3.57
+2026-01-30 22:48:44,265 - INFO - Price change for BB: -2.46%
+2026-01-30 22:48:44,265 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:48:44,419 - INFO - Telegram message sent successfully
+2026-01-30 22:48:44,431 - INFO - 127.0.0.1 - - [30/Jan/2026 22:48:44] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:49:01,047 - INFO - Received Telegram update: /price BB
+2026-01-30 22:49:01,049 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:49:01,434 - INFO - Got price for BB: $3.57
+2026-01-30 22:49:01,609 - INFO - Price change for BB: -2.46%
+2026-01-30 22:49:01,609 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:49:01,750 - INFO - Telegram message sent successfully
+2026-01-30 22:49:01,763 - INFO - 127.0.0.1 - - [30/Jan/2026 22:49:01] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:54:50,782 - INFO - Received Telegram update: /price INTC
+2026-01-30 22:54:50,783 - INFO - Fetching price for INTC (attempt 1/3)...
+2026-01-30 22:54:51,231 - INFO - Got price for INTC: $46.47
+2026-01-30 22:54:51,458 - INFO - Price change for INTC: -4.50%
+2026-01-30 22:54:51,459 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:54:51,613 - INFO - Telegram message sent successfully
+2026-01-30 22:54:51,626 - INFO - 127.0.0.1 - - [30/Jan/2026 22:54:51] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:57:22,680 - INFO - Received Telegram update: /price BB
+2026-01-30 22:57:22,681 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:57:23,014 - INFO - Got price for BB: $3.57
+2026-01-30 22:57:23,130 - INFO - Price change for BB: -2.46%
+2026-01-30 22:57:23,131 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:57:23,278 - INFO - Telegram message sent successfully
+2026-01-30 22:57:23,290 - INFO - 127.0.0.1 - - [30/Jan/2026 22:57:23] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 22:57:23,332 - INFO - Received Telegram update: /price BB
+2026-01-30 22:57:23,332 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 22:57:23,703 - INFO - Got price for BB: $3.57
+2026-01-30 22:57:23,803 - INFO - Price change for BB: -2.46%
+2026-01-30 22:57:23,803 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 22:57:23,976 - INFO - Telegram message sent successfully
+2026-01-30 22:57:23,979 - INFO - 127.0.0.1 - - [30/Jan/2026 22:57:23] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 23:03:16,774 - INFO - Received Telegram update: /price BB
+2026-01-30 23:03:16,776 - INFO - Fetching price for BB (attempt 1/3)...
+2026-01-30 23:03:17,202 - INFO - Got price for BB: $3.57
+2026-01-30 23:03:17,371 - INFO - Price change for BB: -2.46%
+2026-01-30 23:03:17,371 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 23:03:17,510 - INFO - Telegram message sent successfully
+2026-01-30 23:03:17,516 - INFO - 127.0.0.1 - - [30/Jan/2026 23:03:17] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 23:03:22,844 - INFO - Received Telegram update: /news BB
+2026-01-30 23:03:22,844 - INFO - Fetching news for BB (attempt 1/3)...
+2026-01-30 23:03:23,210 - INFO - Fetched 5 news items for BB
+2026-01-30 23:03:23,211 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 23:03:23,387 - INFO - Telegram message sent successfully
+2026-01-30 23:03:23,394 - INFO - 127.0.0.1 - - [30/Jan/2026 23:03:23] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
+2026-01-30 23:03:27,139 - INFO - Received Telegram update: /help
+2026-01-30 23:03:27,140 - INFO - Sending Telegram (attempt 1/3)...
+2026-01-30 23:03:27,282 - INFO - Telegram message sent successfully
+2026-01-30 23:03:27,289 - INFO - 127.0.0.1 - - [30/Jan/2026 23:03:27] "POST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1" 200 -
