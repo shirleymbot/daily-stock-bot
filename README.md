@@ -19,6 +19,7 @@ Automated stock market briefing delivered to Telegram every morning. Supports bo
 On-demand queries via Telegram bot:
 - `/price MSFT` - Get current price and change
 - `/news NFLX` - Get latest news (3 articles)
+- `/portfolio` - View all stocks at once
 - `/alert MSFT 450` - Set price alert
 - `/alerts` - List active alerts
 - `/help` - Show all commands
@@ -141,6 +142,7 @@ journalctl -u ngrok -n 50
 |---------|-------------|
 | `/price MSFT` | Get current price and daily change |
 | `/news NFLX` | Get latest news (3 articles) |
+| `/portfolio` | View all stocks at once |
 | `/alert MSFT 450` | Set price alert at $450 |
 | `/alert MSFT 450+` | Alert when price goes above $450 |
 | `/alert MSFT 450-` | Alert when price goes below $450 |

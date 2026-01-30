@@ -18,7 +18,7 @@ Daily Stock Bot is an automated stock market briefing system that delivers:
 ## Features
 
 - ✅ Automated daily reports at 8 AM
-- ✅ On-demand Telegram commands (`/price`, `/news`, `/alert`)
+- ✅ On-demand Telegram commands (`/price`, `/news`, `/portfolio`, `/alert`)
 - ✅ 24/7 operation with systemd services
 - ✅ News sentiment analysis
 - ✅ Dynamic price targets

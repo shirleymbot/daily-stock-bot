@@ -152,6 +152,7 @@ The Daily Stock Bot is an automated stock market briefing system that delivers r
 - **Commands:**
   - `/price <SYMBOL>` - Get current price
   - `/news <SYMBOL>` - Get latest news
+  - `/portfolio` - View all stocks at once
   - `/alert <SYMBOL> <PRICE>` - Set price alert
   - `/alerts` - List active alerts
   - `/help` - Show help message
