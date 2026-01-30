@@ -261,15 +261,15 @@ def generate_prognosis(stock: Dict, news: List[Dict], price_change: float) -> Di
     base_volatility = 2.0
     sentiment_bonus = (bullish_count - bearish_count) * 0.5
     
-    # Bullish: wider upside, tighter downside
+    # Bullish: tighter downside (support at -1.5%), wider upside (+2.5%)
     if direction == "UP ⬆️":
         target_low = round(current_price * (1 - (base_volatility - sentiment_bonus)/100), 2)
         target_high = round(current_price * (1 + (base_volatility + sentiment_bonus)/100), 2)
-    # Bearish: tighter upside, wider downside
+    # Bearish: wider downside (-2.5%), tighter upside (+1.5%)
     elif direction == "DOWN ⬇️":
         target_low = round(current_price * (1 - (base_volatility + abs(sentiment_bonus))/100), 2)
         target_high = round(current_price * (1 + (base_volatility - abs(sentiment_bonus))/100), 2)
-    # Neutral/Sideways: balanced range
+    # Neutral/Sideways: balanced ±2%
     else:
         target_low = round(current_price * (1 - base_volatility/100), 2)
         target_high = round(current_price * (1 + base_volatility/100), 2)
