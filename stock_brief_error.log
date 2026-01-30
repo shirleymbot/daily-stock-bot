@@ -1,0 +1,47 @@
+2026-01-30 21:45:18,183 - INFO - Starting in webhook mode...
+2026-01-30 21:45:18,183 - ERROR - Flask not installed. Run: pip install flask
+2026-01-30 21:55:40,659 - INFO - Starting in webhook mode...
+2026-01-30 21:55:40,757 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 21:55:40,758 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 21:55:40,758 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:01:59,754 - INFO - Starting in webhook mode...
+2026-01-30 22:01:59,869 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 22:01:59,871 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 22:01:59,871 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:09:24,698 - INFO - Starting in webhook mode...
+2026-01-30 22:09:24,790 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 22:09:24,792 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 22:09:24,792 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:09:44,928 - INFO - 127.0.0.1 - - [30/Jan/2026 22:09:44] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:09:44,964 - INFO - 127.0.0.1 - - [30/Jan/2026 22:09:44] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:09:47,029 - INFO - 127.0.0.1 - - [30/Jan/2026 22:09:47] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:09:51,077 - INFO - 127.0.0.1 - - [30/Jan/2026 22:09:51] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:09:59,119 - INFO - 127.0.0.1 - - [30/Jan/2026 22:09:59] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:10:15,158 - INFO - 127.0.0.1 - - [30/Jan/2026 22:10:15] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:10:47,209 - INFO - 127.0.0.1 - - [30/Jan/2026 22:10:47] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:11:51,244 - INFO - 127.0.0.1 - - [30/Jan/2026 22:11:51] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:15:01,641 - INFO - Starting in webhook mode...
+2026-01-30 22:15:01,738 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 22:15:01,740 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 22:15:01,740 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:16:17,391 - INFO - 127.0.0.1 - - [30/Jan/2026 22:16:17] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -
+2026-01-30 22:16:56,043 - INFO - Starting in webhook mode...
+2026-01-30 22:16:56,136 - INFO - Starting webhook server on 0.0.0.0:5000
+2026-01-30 22:16:56,139 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.178.36:5000
+2026-01-30 22:16:56,139 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-30 22:17:31,434 - INFO - 127.0.0.1 - - [30/Jan/2026 22:17:31] "[33mPOST /webhook/8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA HTTP/1.1[0m" 404 -

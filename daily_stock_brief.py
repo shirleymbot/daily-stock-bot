@@ -641,7 +641,7 @@ def run_webhook(host: str = "0.0.0.0", port: int = 5000):
     
     app = Flask(__name__)
     
-    @app.route(f"/webhook/{TELEGRAM_BOT_TOKEN.split(':')[1]}", methods=["POST"])
+    @app.route(f"/webhook/{TELEGRAM_BOT_TOKEN}", methods=["POST"])
     def telegram_webhook():
         """Handle incoming Telegram updates"""
         try:
