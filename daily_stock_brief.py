@@ -121,48 +121,56 @@ def get_price_change(symbol: str) -> float:
 # ============================================================================
 
 def fetch_news_simple(symbol: str) -> List[Dict]:
-    """Fetch news from Google News RSS with error handling"""
-    url = f"https://news.google.com/rss/search?q={symbol}+stock&hl=en-US&gl=US&ceid=US:en"
-    
+    """Fetch news using yfinance ticker.news API"""
     news = []
     
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             logger.info(f"Fetching news for {symbol} (attempt {attempt}/{MAX_RETRIES})...")
-            headers = {"User-Agent": "Mozilla/5.0"}
-            response = requests.get(url, headers=headers, timeout=15)
+            ticker = yf.Ticker(symbol)
+            yf_news = ticker.news
             
-            if response.status_code == 200:
-                import re
-                content = response.text
-                items = re.findall(r'<item[^>]*>(.*?)</item>', content, re.DOTALL)
-                
-                for item in items[:5]:
-                    title_match = re.search(r'<title><!\[CDATA\[(.*?)\]\]></title>', item)
-                    if not title_match:
-                        title_match = re.search(r'<title>(.*?)</title>', item)
-                    
-                    source_match = re.search(r'<source[^>]*>(.*?)</source>', item)
-                    
-                    if title_match:
-                        title = title_match.group(1).strip()
-                        if 15 < len(title) < 150:
-                            if not any(existing.get('title', '') == title for existing in news):
-                                news.append({
-                                    "title": title[:70],
-                                    "source": source_match.group(1).strip() if source_match else "Google News",
-                                    "date": int(time.time()),
-                                    "url": "",
-                                    "summary": ""
-                                })
+            if yf_news:
+                for item in yf_news[:5]:
+                    title = item.get('title', '')
+                    if 15 < len(title) < 200:
+                        source = item.get('source', 'Yahoo Finance')
+                        url = item.get('link', '')
+                        # Convert timestamp to int
+                        pub_date = item.get('providerPublishTime', int(time.time()))
+                        
+                        if not any(existing.get('title', '') == title for existing in news):
+                            news.append({
+                                "title": title[:70],
+                                "source": source,
+                                "date": pub_date,
+                                "url": url,
+                                "summary": ""
+                            })
                 
                 logger.info(f"Fetched {len(news)} news items for {symbol}")
                 break
             
+            logger.warning(f"No news from yfinance for {symbol}")
+            break
+            
         except Exception as e:
-            logger.error(f"Error parsing news for {symbol} (attempt {attempt}): {e}")
+            logger.error(f"Error fetching news for {symbol} (attempt {attempt}): {e}")
             if attempt < MAX_RETRIES:
                 time.sleep(RETRY_DELAY)
+    
+    # Fallback if no news
+    if len(news) == 0:
+        logger.warning(f"No news found for {symbol}, using fallback")
+        news.append({
+            "title": f"{symbol}: Check latest market news",
+            "source": "Market Watch",
+            "date": int(time.time()),
+            "url": "",
+            "summary": ""
+        })
+    
+    return news[:2]
     
     if len(news) == 0:
         logger.warning(f"No news found for {symbol}, using fallback")
