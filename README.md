@@ -25,38 +25,10 @@ On-demand queries via Telegram bot:
 
 ## Installation
 
-### Install Dependencies (Recommended: Use apt)
-
-On Ubuntu/Debian, some packages may be blocked from pip installation due to system protection (PEP 668). Use apt instead:
-
 ```bash
-# Install Python packages via apt
+# Install dependencies via apt (recommended)
 sudo apt install python3-yfinance python3-requests python3-flask
 ```
-
-### Alternative: Use pip with Virtual Environment
-
-If you prefer pip or need newer versions:
-
-```bash
-# Create a virtual environment (recommended)
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install yfinance requests flask
-
-# When done, exit the venv
-deactivate
-```
-
-### Alternative: Use pip with --break-system-packages
-
-```bash
-pip install --break-system-packages yfinance requests flask
-```
-
-**Note:** The `--break-system-packages` flag bypasses system protection but may conflict with system packages in rare cases.
 
 ## Configuration
 
@@ -226,17 +198,9 @@ journalctl -u ngrok -n 50
 
 ## Requirements
 
-### System Packages (Recommended)
-```bash
-sudo apt install python3-yfinance python3-requests python3-flask
-```
-
-### Python Packages (Alternative)
 - python3-yfinance
 - python3-requests
 - python3-flask (for webhook mode)
-
-### Additional Requirements
 - Telegram account
 - ngrok (for on-demand commands, optional)
 
