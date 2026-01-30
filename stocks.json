@@ -1,0 +1,22 @@
+{
+  "settings_Nasdaq": {
+    "update_interval_seconds": 30,
+    "currency": "USD"
+  },
+  "settings_DAX": {
+    "update_interval_seconds": 125,
+    "currency": "EUR"
+  },
+  "watchlist_Nasdaq": [
+    { "symbol": "NFLX", "target_low": 83.50, "target_high": 86.00, "market": 2 },
+    { "symbol": "PYPL", "target_low": 54.00, "target_high": 57.50, "market": 2 },
+    { "symbol": "BB", "target_low": 3.75, "target_high": 4.00, "market": 2 },
+    { "symbol": "NCLH", "target_low": 20.00, "target_high": 21.00, "market": 2 },
+    { "symbol": "NIO", "target_low": 4.50, "target_high": 5.00, "market": 2 },
+    { "symbol": "API", "target_low": 4.00, "target_high": 5.00, "market": 2 },
+    { "symbol": "MSFT", "target_low": 405.00, "target_high": 460.00, "market": 2 }
+  ],
+  "watchlist_DAX": [
+    { "symbol": "VOW3.DE", "target_low": 99.00, "target_high": 105.00, "market": 1 }
+  ]
+}
