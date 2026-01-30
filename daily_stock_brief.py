@@ -132,12 +132,25 @@ def fetch_news_simple(symbol: str) -> List[Dict]:
             
             if yf_news:
                 for item in yf_news[:5]:
-                    title = item.get('title', '')
+                    # yfinance news has nested 'content' object
+                    content = item.get('content', item)
+                    title = content.get('title', '') if content else ''
+                    
                     if 15 < len(title) < 200:
+                        # Source is in the main item, not content
                         source = item.get('source', 'Yahoo Finance')
-                        url = item.get('link', '')
-                        # Convert timestamp to int
-                        pub_date = item.get('providerPublishTime', int(time.time()))
+                        # Try multiple paths for URL
+                        url = content.get('canonicalUrl', {}).get('url', '') or item.get('link', '')
+                        # Parse pubDate
+                        pub_date_str = content.get('pubDate', '')
+                        if pub_date_str:
+                            from datetime import datetime
+                            try:
+                                pub_date = int(datetime.fromisoformat(pub_date_str.replace('Z', '+00:00')).timestamp())
+                            except:
+                                pub_date = int(time.time())
+                        else:
+                            pub_date = int(time.time())
                         
                         if not any(existing.get('title', '') == title for existing in news):
                             news.append({
@@ -145,7 +158,7 @@ def fetch_news_simple(symbol: str) -> List[Dict]:
                                 "source": source,
                                 "date": pub_date,
                                 "url": url,
-                                "summary": ""
+                                "summary": content.get('summary', '')[:100]
                             })
                 
                 logger.info(f"Fetched {len(news)} news items for {symbol}")
