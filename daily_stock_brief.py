@@ -8,6 +8,7 @@ With comprehensive error handling and retry logic
 import json
 import yfinance as yf
 import requests
+from datetime import datetime
 import time
 import logging
 import os
@@ -144,7 +145,6 @@ def fetch_news_simple(symbol: str) -> List[Dict]:
                         # Parse pubDate
                         pub_date_str = content.get('pubDate', '')
                         if pub_date_str:
-                            from datetime import datetime
                             try:
                                 pub_date = int(datetime.fromisoformat(pub_date_str.replace('Z', '+00:00')).timestamp())
                             except:
@@ -378,7 +378,6 @@ def generate_report(stocks_data: Dict) -> str:
                     source = item.get("source", "")
                     pub_date = item.get("date", 0)
                     if pub_date:
-                        from datetime import datetime
                         date_str = datetime.fromtimestamp(pub_date).strftime('%b %d')
                     else:
                         date_str = "Today"

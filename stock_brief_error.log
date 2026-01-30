@@ -1,0 +1,14 @@
+2026-01-30 20:27:24,899 - INFO - ==================================================
+2026-01-30 20:27:24,899 - INFO - Starting Daily Stock Brief v2.1 (yfinance)
+2026-01-30 20:27:24,899 - INFO - ✅ Config file
+2026-01-30 20:27:24,899 - INFO - ✅ Telegram token
+2026-01-30 20:27:24,899 - INFO - ✅ Telegram chat_id
+2026-01-30 20:27:24,899 - INFO - Loaded 7 NASDAQ stocks
+2026-01-30 20:27:24,899 - ERROR - Unexpected error: cannot access local variable 'datetime' where it is not associated with a value
+2026-01-30 20:27:30,225 - INFO - ==================================================
+2026-01-30 20:27:30,225 - INFO - Starting Daily Stock Brief v2.1 (yfinance)
+2026-01-30 20:27:30,225 - INFO - ✅ Config file
+2026-01-30 20:27:30,225 - INFO - ✅ Telegram token
+2026-01-30 20:27:30,225 - INFO - ✅ Telegram chat_id
+2026-01-30 20:27:30,225 - INFO - Loaded 7 NASDAQ stocks
+2026-01-30 20:27:30,225 - ERROR - Unexpected error: cannot access local variable 'datetime' where it is not associated with a value
