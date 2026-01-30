@@ -1,0 +1,13 @@
+[Unit]
+Description=Ngrok Tunnel for Daily Stock Bot
+After=network.target
+
+[Service]
+Type=simple
+User=linmeng
+ExecStart=/usr/bin/ngrok http 5000
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
