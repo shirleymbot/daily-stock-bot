@@ -627,8 +627,57 @@ def health_check() -> bool:
     
     return all(passed for _, passed in checks)
 
+# ============================================================================
+# WEBHOOK HANDLER (Optional)
+# ============================================================================
+
+def run_webhook(host: str = "0.0.0.0", port: int = 5000):
+    """Run Flask webhook server for Telegram commands"""
+    try:
+        from flask import Flask, request, jsonify
+    except ImportError:
+        logger.error("Flask not installed. Run: pip install flask")
+        return
+    
+    app = Flask(__name__)
+    
+    @app.route(f"/webhook/{TELEGRAM_BOT_TOKEN.split(':')[1]}", methods=["POST"])
+    def telegram_webhook():
+        """Handle incoming Telegram updates"""
+        try:
+            update = request.get_json()
+            logger.info(f"Received Telegram update: {update.get('message', {}).get('text', 'unknown')}")
+            
+            command, args, chat_id = parse_telegram_update(update)
+            
+            if command:
+                response = handle_command(command, args)
+                send_telegram_message(response, TELEGRAM_BOT_TOKEN, str(chat_id))
+                return jsonify({"status": "ok"})
+            else:
+                return jsonify({"status": "ignored"})
+                
+        except Exception as e:
+            logger.error(f"Webhook error: {e}")
+            return jsonify({"status": "error", "message": str(e)}), 500
+    
+    @app.route("/health")
+    def health():
+        return jsonify({"status": "ok"})
+    
+    logger.info(f"Starting webhook server on {host}:{port}")
+    app.run(host=host, port=port, debug=False)
+
 def main():
     """Main function with error handling"""
+    import sys
+    
+    # Check for webhook mode
+    if len(sys.argv) > 1 and sys.argv[1] == "--webhook":
+        logger.info("Starting in webhook mode...")
+        run_webhook()
+        return
+    
     logger.info("=" * 50)
     logger.info("Starting Daily Stock Brief v2.1 (yfinance)")
     
