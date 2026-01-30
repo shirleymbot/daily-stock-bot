@@ -1,0 +1,428 @@
+#!/usr/bin/env python3
+"""
+Daily Stock Brief Generator - v2.1
+Fetches stock prices using yfinance, sends daily reports to Telegram
+With comprehensive error handling and retry logic
+"""
+
+import json
+import yfinance as yf
+import requests
+import time
+import logging
+import os
+from datetime import datetime
+from typing import List, Dict, Optional
+
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+CONFIG_FILE = "stocks.json"
+LOG_FILE = "stock_brief_error.log"
+
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "8215209844")
+
+# Retry configuration
+MAX_RETRIES = 3
+RETRY_DELAY = 2  # seconds
+
+# ============================================================================
+# LOGGING SETUP
+# ============================================================================
+
+def setup_logging():
+    """Configure logging for errors and operations"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(LOG_FILE),
+            logging.StreamHandler()
+        ]
+    )
+    return logging.getLogger(__name__)
+
+logger = setup_logging()
+
+# ============================================================================
+# YFINANCE FUNCTIONS
+# ============================================================================
+
+def get_yahoo_price(symbol: str) -> Optional[float]:
+    """Fetch current price using yfinance with retry"""
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            logger.info(f"Fetching price for {symbol} (attempt {attempt}/{MAX_RETRIES})...")
+            ticker = yf.Ticker(symbol)
+            
+            info = ticker.fast_info
+            if hasattr(info, 'last_price') and info.last_price:
+                price = float(info.last_price)
+                logger.info(f"Got price for {symbol}: ${price:.2f}")
+                return price
+            
+            hist = ticker.history(period="1d")
+            if not hist.empty:
+                price = hist['Close'].iloc[-1]
+                logger.info(f"Got price for {symbol}: ${price:.2f}")
+                return price
+            
+            logger.warning(f"No price data for {symbol}")
+            return None
+            
+        except Exception as e:
+            logger.warning(f"Error fetching price for {symbol} (attempt {attempt}): {e}")
+            if attempt < MAX_RETRIES:
+                logger.info(f"Retrying in {RETRY_DELAY} seconds...")
+                time.sleep(RETRY_DELAY)
+    
+    logger.error(f"Failed after {MAX_RETRIES} attempts: {symbol}")
+    return None
+
+def get_price_change(symbol: str) -> float:
+    """Get daily price change percentage using yfinance"""
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            ticker = yf.Ticker(symbol)
+            hist = ticker.history(period="5d")
+            
+            if len(hist) >= 2:
+                current_price = hist['Close'].iloc[-1]
+                prev_close = hist['Close'].iloc[-2]
+                if prev_close > 0:
+                    change = ((current_price - prev_close) / prev_close) * 100
+                    logger.info(f"Price change for {symbol}: {change:+.2f}%")
+                    return change
+            
+            if len(hist) == 1:
+                info = ticker.fast_info
+                if hasattr(info, 'previous_close') and info.previous_close:
+                    current_price = hist['Close'].iloc[-1]
+                    prev_close = float(info.previous_close)
+                    if prev_close > 0:
+                        change = ((current_price - prev_close) / prev_close) * 100
+                        logger.info(f"Price change for {symbol}: {change:+.2f}%")
+                        return change
+            
+            logger.warning(f"Could not calculate price change for {symbol}")
+            return 0.0
+            
+        except Exception as e:
+            logger.warning(f"Error calculating price change for {symbol} (attempt {attempt}): {e}")
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_DELAY)
+    
+    return 0.0
+
+# ============================================================================
+# NEWS FUNCTIONS
+# ============================================================================
+
+def fetch_news_simple(symbol: str) -> List[Dict]:
+    """Fetch news from Google News RSS with error handling"""
+    url = f"https://news.google.com/rss/search?q={symbol}+stock&hl=en-US&gl=US&ceid=US:en"
+    
+    news = []
+    
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            logger.info(f"Fetching news for {symbol} (attempt {attempt}/{MAX_RETRIES})...")
+            headers = {"User-Agent": "Mozilla/5.0"}
+            response = requests.get(url, headers=headers, timeout=15)
+            
+            if response.status_code == 200:
+                import re
+                content = response.text
+                items = re.findall(r'<item[^>]*>(.*?)</item>', content, re.DOTALL)
+                
+                for item in items[:5]:
+                    title_match = re.search(r'<title><!\[CDATA\[(.*?)\]\]></title>', item)
+                    if not title_match:
+                        title_match = re.search(r'<title>(.*?)</title>', item)
+                    
+                    source_match = re.search(r'<source[^>]*>(.*?)</source>', item)
+                    
+                    if title_match:
+                        title = title_match.group(1).strip()
+                        if 15 < len(title) < 150:
+                            if not any(existing.get('title', '') == title for existing in news):
+                                news.append({
+                                    "title": title[:70],
+                                    "source": source_match.group(1).strip() if source_match else "Google News",
+                                    "date": int(time.time()),
+                                    "url": "",
+                                    "summary": ""
+                                })
+                
+                logger.info(f"Fetched {len(news)} news items for {symbol}")
+                break
+            
+        except Exception as e:
+            logger.error(f"Error parsing news for {symbol} (attempt {attempt}): {e}")
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_DELAY)
+    
+    if len(news) == 0:
+        logger.warning(f"No news found for {symbol}, using fallback")
+        news.append({
+            "title": f"{symbol}: Check latest market news",
+            "source": "Market Watch",
+            "date": int(time.time()),
+            "url": "",
+            "summary": ""
+        })
+    
+    return news[:2]
+
+# ============================================================================
+# ANALYSIS FUNCTIONS
+# ============================================================================
+
+def analyze_impact(news_item: Dict) -> Dict:
+    """Analyze news impact on stock price"""
+    title = news_item.get("title", "").lower()
+    summary = news_item.get("summary", "").lower()
+    text = f"{title} {summary}"
+    
+    bullish_keywords = ["surge", "jump", "beat", "growth", "upgrade", "acquisition", "partnership", "record"]
+    bearish_keywords = ["drop", "fall", "miss", "cut", "downgrade", "lawsuit", "investigation", "concern"]
+    
+    impact = "NEUTRAL"
+    impact_score = 0.0
+    
+    for word in bullish_keywords:
+        if word in text:
+            impact = "BULLISH"
+            impact_score = 0.3 + (text.count(word) * 0.1)
+            break
+    
+    if impact == "NEUTRAL":
+        for word in bearish_keywords:
+            if word in text:
+                impact = "BEARISH"
+                impact_score = -(0.3 + (text.count(word) * 0.1))
+                break
+    
+    return {"direction": impact, "estimated_change": round(impact_score * 100, 1)}
+
+def generate_prognosis(stock: Dict, news: List[Dict], price_change: float) -> Dict:
+    """Generate price prognosis based on news analysis"""
+    news_impact = 0.0
+    bullish_count = 0
+    bearish_count = 0
+    
+    for item in news:
+        analysis = analyze_impact(item)
+        if analysis["direction"] == "BULLISH":
+            bullish_count += 1
+            news_impact += analysis["estimated_change"]
+        elif analysis["direction"] == "BEARISH":
+            bearish_count += 1
+            news_impact += analysis["estimated_change"]
+    
+    total_impact = news_impact + (price_change * 0.5)
+    
+    if total_impact > 0.5:
+        direction = "UP ⬆️"
+    elif total_impact < -0.5:
+        direction = "DOWN ⬇️"
+    else:
+        direction = "SIDEWAYS ↔️"
+    
+    total_news = len(news)
+    confidence = 40 if total_news == 0 else 50 + (abs(bullish_count - bearish_count) / total_news) * 40
+    
+    current_price = stock.get("current_price", 100)
+    volatility = 2.0
+    target_low = round(current_price * (1 - volatility/100), 2)
+    target_high = round(current_price * (1 + volatility/100), 2)
+    
+    return {
+        "direction": direction,
+        "target_low": target_low,
+        "target_high": target_high,
+        "confidence": confidence,
+        "bullish_news": bullish_count,
+        "bearish_news": bearish_count
+    }
+
+def summarize_headline(title: str) -> str:
+    """Extract meaningful summary from headline"""
+    import re
+    t = title.lower()
+    
+    if any(x in t for x in ["downgrade", "bearish", "drops", "falls"]):
+        return "Stock declining — selling pressure continues"
+    if any(x in t for x in ["upgrade", "bullish", "rall", "soars"]):
+        return "Stock rallying — buying momentum building"
+    if "earnings" in t:
+        return "Earnings in focus — results could trigger movement"
+    if "regulation" in t or "lawsuit" in t:
+        return "Regulatory/legal risks could impact outlook"
+    
+    return "Market news update"
+
+# ============================================================================
+# REPORT GENERATION
+# ============================================================================
+
+def load_stocks() -> Dict:
+    """Load stock configuration from stocks.json with error handling"""
+    try:
+        with open(CONFIG_FILE, 'r') as f:
+            stocks = json.load(f)
+        logger.info(f"Loaded {len(stocks.get('watchlist_Nasdaq', []))} NASDAQ stocks")
+        return stocks
+    except FileNotFoundError:
+        logger.error(f"Config file not found: {CONFIG_FILE}")
+        raise
+    except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON in config file: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Error loading stocks: {e}")
+        raise
+
+def generate_report(stocks_data: Dict) -> str:
+    """Generate the daily stock brief report with error handling"""
+    date_str = datetime.now().strftime('%b %d, %Y')
+    report = f"📈 DAILY STOCK BRIEF — {date_str}\n"
+    report += "─" * 40 + "\n\n"
+    
+    stocks_processed = 0
+    stocks_failed = 0
+    
+    if "watchlist_Nasdaq" in stocks_data:
+        for stock in stocks_data["watchlist_Nasdaq"]:
+            symbol = stock["symbol"]
+            
+            try:
+                current_price = get_yahoo_price(symbol)
+                
+                if current_price is None:
+                    stocks_failed += 1
+                    logger.error(f"Failed to get price for {symbol}")
+                    continue
+                
+                stock["current_price"] = current_price
+                price_change = get_price_change(symbol)
+                stock["price_change"] = price_change
+                
+                news = fetch_news_simple(symbol)
+                prognosis = generate_prognosis(stock, news, price_change)
+                
+                emoji = "📉" if price_change < 0 else "📈"
+                arrow = "▼" if price_change < 0 else "▲"
+                direction_emoji = "⬇️" if prognosis["direction"] == "DOWN ⬇️" else ("⬆️" if prognosis["direction"] == "UP ⬆️" else "↔️")
+                
+                report += f"{emoji} {symbol} ${current_price:.2f} {arrow}{price_change:+.1f}%\n"
+                report += f"   🎯 Target: ${prognosis['target_low']:.2f}-{prognosis['target_high']:.2f} | {direction_emoji} {prognosis['confidence']}%\n"
+                
+                for i, item in enumerate(news[:2], 1):
+                    title = item.get("title", "")
+                    source = item.get("source", "")
+                    summary = summarize_headline(title)
+                    report += f"   {i}. {summary}\n"
+                    report += f"      Today | {source}\n"
+                
+                report += "\n"
+                stocks_processed += 1
+                time.sleep(0.5)
+                
+            except Exception as e:
+                stocks_failed += 1
+                logger.error(f"Error processing {symbol}: {e}")
+    
+    report += f"─" * 40 + "\n"
+    report += f"🤖 Generated: {datetime.now().strftime('%H:%M')} | ⚠️ Not financial advice"
+    report += f"\n✅ Processed: {stocks_processed} | ❌ Failed: {stocks_failed}"
+    
+    logger.info(f"Report generated: {stocks_processed} stocks, {stocks_failed} failed")
+    return report
+
+# ============================================================================
+# TELEGRAM
+# ============================================================================
+
+def send_telegram_message(message: str, bot_token: str, chat_id: str) -> bool:
+    """Send report to Telegram with retry"""
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    data = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "Markdown"
+    }
+    
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            logger.info(f"Sending Telegram (attempt {attempt}/{MAX_RETRIES})...")
+            response = requests.post(url, json=data, timeout=15)
+            if response.status_code == 200:
+                logger.info("Telegram message sent successfully")
+                return True
+            else:
+                logger.warning(f"Telegram returned status {response.status_code}")
+        except Exception as e:
+            logger.error(f"Telegram error (attempt {attempt}): {e}")
+        
+        if attempt < MAX_RETRIES:
+            time.sleep(RETRY_DELAY)
+    
+    logger.error("Failed to send Telegram message after all retries")
+    return False
+
+# ============================================================================
+# MAIN
+# ============================================================================
+
+def health_check() -> bool:
+    """Verify critical dependencies before running"""
+    checks = []
+    checks.append(("Config file", os.path.exists(CONFIG_FILE)))
+    checks.append(("Telegram token", bool(TELEGRAM_BOT_TOKEN)))
+    checks.append(("Telegram chat_id", bool(TELEGRAM_CHAT_ID)))
+    
+    for name, passed in checks:
+        status = "✅" if passed else "❌"
+        logger.info(f"{status} {name}")
+    
+    return all(passed for _, passed in checks)
+
+def main():
+    """Main function with error handling"""
+    logger.info("=" * 50)
+    logger.info("Starting Daily Stock Brief v2.1 (yfinance)")
+    
+    if not health_check():
+        logger.error("Health check failed!")
+        return
+    
+    try:
+        stocks_data = load_stocks()
+        report = generate_report(stocks_data)
+        logger.info("Report generated successfully")
+        
+        print("\n" + "=" * 50)
+        print(report)
+        print("=" * 50)
+        
+        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+            if send_telegram_message(report, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID):
+                logger.info("Report sent to Telegram")
+            else:
+                logger.error("Failed to send to Telegram")
+        else:
+            logger.warning("Telegram not configured")
+        
+        logger.info("Daily Stock Brief completed successfully")
+        
+    except KeyboardInterrupt:
+        logger.info("Interrupted by user")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise
+
+if __name__ == "__main__":
+    main()
