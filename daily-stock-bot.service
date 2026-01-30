@@ -1,0 +1,16 @@
+[Unit]
+Description=Daily Stock Bot - Telegram Stock Brief Service
+After=network.target
+
+[Service]
+Type=simple
+User=linmeng
+WorkingDirectory=/home/linmeng/clawd/bots/daily-stock-bot
+ExecStart=/usr/bin/python3 /home/linmeng/clawd/bots/daily-stock-bot/daily_stock_brief.py --webhook
+Restart=always
+RestartSec=10
+Environment=TELEGRAM_BOT_TOKEN=8431739904:AAE-Ukcpc7ltEkAaNwEJT07FkL79mUESwdA
+Environment=TELEGRAM_CHAT_ID=8215209844
+
+[Install]
+WantedBy=multi-user.target
