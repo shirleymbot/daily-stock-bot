@@ -183,7 +183,7 @@ def fetch_news_simple(symbol: str) -> List[Dict]:
             "summary": ""
         })
     
-    return news[:2]
+    return news[:3]
     
     if len(news) == 0:
         logger.warning(f"No news found for {symbol}, using fallback")
@@ -195,7 +195,7 @@ def fetch_news_simple(symbol: str) -> List[Dict]:
             "summary": ""
         })
     
-    return news[:2]
+    return news[:3]
 
 # ============================================================================
 # ANALYSIS FUNCTIONS
@@ -391,7 +391,7 @@ def generate_report(stocks_data: Dict) -> str:
                 report += f"{emoji} {symbol} ${current_price:.2f} {arrow}{price_change:+.1f}%\n"
                 report += f"   🎯 Exp: ${prognosis['target_low']:.2f}-{prognosis['target_high']:.2f} (+{prognosis['expected_move']:.1f}%) | {direction_emoji} {int(prognosis['confidence'])}%\n"
                 
-                for i, item in enumerate(news[:2], 1):
+                for i, item in enumerate(news[:3], 1):
                     title = item.get("title", "")
                     source = item.get("source", "")
                     pub_date = item.get("date", 0)
