@@ -256,14 +256,32 @@ def generate_prognosis(stock: Dict, news: List[Dict], price_change: float) -> Di
     confidence = 40 if total_news == 0 else 50 + (abs(bullish_count - bearish_count) / total_news) * 40
     
     current_price = stock.get("current_price", 100)
-    volatility = 2.0
-    target_low = round(current_price * (1 - volatility/100), 2)
-    target_high = round(current_price * (1 + volatility/100), 2)
+    
+    # Dynamic volatility based on news sentiment and confidence
+    base_volatility = 2.0
+    sentiment_bonus = (bullish_count - bearish_count) * 0.5
+    
+    # Bullish: wider upside, tighter downside
+    if direction == "UP ⬆️":
+        target_low = round(current_price * (1 - (base_volatility - sentiment_bonus)/100), 2)
+        target_high = round(current_price * (1 + (base_volatility + sentiment_bonus)/100), 2)
+    # Bearish: tighter upside, wider downside
+    elif direction == "DOWN ⬇️":
+        target_low = round(current_price * (1 - (base_volatility + abs(sentiment_bonus))/100), 2)
+        target_high = round(current_price * (1 + (base_volatility - abs(sentiment_bonus))/100), 2)
+    # Neutral/Sideways: balanced range
+    else:
+        target_low = round(current_price * (1 - base_volatility/100), 2)
+        target_high = round(current_price * (1 + base_volatility/100), 2)
+    
+    # Calculate expected move percentage for display
+    expected_move_pct = round(((target_high - target_low) / current_price) * 100, 1)
     
     return {
         "direction": direction,
         "target_low": target_low,
         "target_high": target_high,
+        "expected_move": expected_move_pct,
         "confidence": confidence,
         "bullish_news": bullish_count,
         "bearish_news": bearish_count
@@ -371,7 +389,7 @@ def generate_report(stocks_data: Dict) -> str:
                 direction_emoji = "⬇️" if prognosis["direction"] == "DOWN ⬇️" else ("⬆️" if prognosis["direction"] == "UP ⬆️" else "↔️")
                 
                 report += f"{emoji} {symbol} ${current_price:.2f} {arrow}{price_change:+.1f}%\n"
-                report += f"   🎯 Target: ${prognosis['target_low']:.2f}-{prognosis['target_high']:.2f} | {direction_emoji} {prognosis['confidence']}%\n"
+                report += f"   🎯 Exp: ${prognosis['target_low']:.2f}-{prognosis['target_high']:.2f} (+{prognosis['expected_move']:.1f}%) | {direction_emoji} {int(prognosis['confidence'])}%\n"
                 
                 for i, item in enumerate(news[:2], 1):
                     title = item.get("title", "")
